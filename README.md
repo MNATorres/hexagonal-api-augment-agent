@@ -15,7 +15,10 @@ A modern REST API built with Node.js and Express.js that follows **Hexagonal Arc
 
 - **Clean Architecture**: Separation of concerns with domain, application, and infrastructure layers
 - **RESTful API**: Full CRUD operations for managing products
-- **In-Memory Storage**: Simple data persistence that can be easily swapped with a real database
+- **Flexible Storage Options**:
+  - In-memory storage for quick testing and development
+  - MySQL database for persistent storage in production
+- **Docker Integration**: Easy setup with Docker Compose for the database
 - **Well-Documented**: Comprehensive API documentation and examples
 - **Developer-Friendly**: Hot-reloading for development
 
@@ -43,20 +46,31 @@ Hexagonal Architecture (also known as Ports and Adapters) is a software design p
 ## 📁 Project Structure
 
 ```
-src/
-├── domain/                 # Domain layer - core business logic
-│   ├── entities/           # Business entities (Product)
-│   └── repositories/       # Repository interfaces (ports)
+├── docker-compose.yml      # Docker Compose configuration
+├── init-scripts/           # MySQL initialization scripts
+│   └── 01-create-tables.sql # Creates tables and inserts default data
+├── .env                    # Environment variables
 │
-├── application/            # Application layer - use cases
-│   └── services/           # Application services
-│
-└── infrastructure/         # Infrastructure layer - external interfaces
-    ├── repositories/       # Repository implementations (adapters)
-    └── web/                # Web-related code
-        ├── controllers/    # HTTP controllers
-        ├── routes/         # Express routes
-        └── app.js          # Express application setup
+└── src/
+    ├── domain/             # Domain layer - core business logic
+    │   ├── entities/       # Business entities (Product)
+    │   └── repositories/   # Repository interfaces (ports)
+    │
+    ├── application/        # Application layer - use cases
+    │   └── services/       # Application services
+    │
+    └── infrastructure/     # Infrastructure layer - external interfaces
+        ├── config/         # Configuration files
+        │   └── database.js # Database connection configuration
+        ├── factories/      # Factory classes
+        │   └── RepositoryFactory.js # Creates repositories based on config
+        ├── repositories/   # Repository implementations (adapters)
+        │   ├── InMemoryProductRepository.js # In-memory implementation
+        │   └── MySQLProductRepository.js    # MySQL implementation
+        └── web/            # Web-related code
+            ├── controllers/ # HTTP controllers
+            ├── routes/     # Express routes
+            └── app.js      # Express application setup
 ```
 
 ## 🚀 Getting Started
@@ -65,6 +79,7 @@ src/
 
 - Node.js (v14 or higher)
 - npm (v6 or higher)
+- Docker and Docker Compose (for MySQL database)
 
 ### Installation
 
@@ -79,13 +94,32 @@ src/
    npm install
    ```
 
-3. Start the server:
+3. Start the MySQL database with Docker Compose:
+   ```bash
+   docker-compose up -d
+   ```
+   This will start a MySQL database on port 3306 and phpMyAdmin on port 8080.
+
+   You can access phpMyAdmin at http://localhost:8080 with these credentials:
+   - Server: mysql
+   - Username: user
+   - Password: password
+
+4. Configure the application:
+   The application can use either an in-memory repository or a MySQL repository.
+   Edit the `.env` file to configure the repository type:
+   ```
+   # Use 'memory' or 'mysql'
+   REPOSITORY_TYPE=mysql
+   ```
+
+5. Start the server:
    ```bash
    npm start
    ```
    The server will start on http://localhost:3000
 
-4. For development with auto-reload:
+6. For development with auto-reload:
    ```bash
    npm run dev
    ```
@@ -163,11 +197,32 @@ Run the test suite:
 npm test
 ```
 
+## 💾 Data Persistence
+
+This application supports two types of data persistence:
+
+### In-Memory Storage
+
+- Data is stored in memory and will be lost when the server restarts
+- Useful for development and testing
+- No additional setup required
+- Configure with `REPOSITORY_TYPE=memory` in the `.env` file
+
+### MySQL Database
+
+- Data is stored in a MySQL database and persists between server restarts
+- Suitable for production use
+- Requires Docker and Docker Compose for easy setup
+- Configure with `REPOSITORY_TYPE=mysql` in the `.env` file
+- Database schema and default data are automatically created on first run
+
 ## 📚 Learn More
 
 - [Hexagonal Architecture (Alistair Cockburn)](https://alistair.cockburn.us/hexagonal-architecture/)
 - [Node.js Documentation](https://nodejs.org/en/docs/)
 - [Express.js Documentation](https://expressjs.com/)
+- [MySQL Documentation](https://dev.mysql.com/doc/)
+- [Docker Documentation](https://docs.docker.com/)
 
 ## 📄 License
 

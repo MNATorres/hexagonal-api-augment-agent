@@ -2,13 +2,13 @@
  * Product entity representing a product in our system
  */
 class Product {
-  constructor(id, name, price, description) {
+  constructor(id, name, price, description, createdAt = null, updatedAt = null) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.description = description;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = createdAt || new Date();
+    this.updatedAt = updatedAt || new Date();
   }
 
   update(data) {
