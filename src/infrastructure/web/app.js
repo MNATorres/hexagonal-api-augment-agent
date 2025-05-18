@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const setupProductRoutes = require('./routes/productRoutes');
+const setupSwagger = require('./swagger');
 
 /**
  * Configure Express application
@@ -12,6 +13,9 @@ function setupApp(productController) {
 
   // Middleware
   app.use(bodyParser.json());
+
+  // Setup Swagger documentation
+  setupSwagger(app);
 
   // Routes
   app.use('/api/products', setupProductRoutes(productController));

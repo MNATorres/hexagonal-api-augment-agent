@@ -19,7 +19,7 @@ A modern REST API built with Node.js and Express.js that follows **Hexagonal Arc
   - In-memory storage for quick testing and development
   - MySQL database for persistent storage in production
 - **Docker Integration**: Easy setup with Docker Compose for the database
-- **Well-Documented**: Comprehensive API documentation and examples
+- **Well-Documented**: Comprehensive API documentation with Swagger UI
 - **Developer-Friendly**: Hot-reloading for development
 
 ## 🏛️ Hexagonal Architecture Explained
@@ -124,7 +124,23 @@ Hexagonal Architecture (also known as Ports and Adapters) is a software design p
    npm run dev
    ```
 
-## 🔗 API Endpoints
+## 📚 API Documentation
+
+### Swagger UI
+
+The API is documented using Swagger UI, which provides an interactive documentation interface. You can access it at:
+
+```
+http://localhost:3000/api-docs
+```
+
+This interface allows you to:
+- Explore all available endpoints
+- Read detailed documentation for each endpoint
+- Test API calls directly from the browser
+- View request and response schemas
+
+### API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -223,6 +239,8 @@ This application supports two types of data persistence:
 - [Express.js Documentation](https://expressjs.com/)
 - [MySQL Documentation](https://dev.mysql.com/doc/)
 - [Docker Documentation](https://docs.docker.com/)
+- [Swagger Documentation](https://swagger.io/docs/)
+- [OpenAPI Specification](https://swagger.io/specification/)
 
 ## 📄 License
 
